@@ -15,6 +15,11 @@ jobs:
 
       - uses: r-lib/actions/setup-r@v1
 
+      - name: Install dependencies
+        run: |
+          install.packages(c("dplyr", "lubridate", "remotes", "testthat", "tibble"))
+        shell: Rscript {0}
+
       - name: Report
         run: Rscript combine_treatments.R
 
