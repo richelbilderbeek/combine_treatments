@@ -24,7 +24,8 @@ get_test_table_1 <- function() {
   t
 }
 
-#' Get a simple test table with bug report at 2022-03-14
+#' Get a simple test table with bug report at 2022-03-14.
+#' These two rows should not be combined
 get_test_table_2 <- function() {
   t <- tibble::tibble(
     LopNr = c(42, 42),
@@ -436,10 +437,11 @@ combine_purchases_by_first_date <- function(
   n_rows_before <- nrow(t)
 
   # We need to group by an approximate day
+  # As these days are far apart, no merge here
   t_fixed <- combine_purchases_by_first_date(t, max_n_days_apart = 14)
 
   n_rows_after <- nrow(t_fixed)
-  testthat::expect_true(n_rows_after < n_rows_before)
+  testthat::expect_equal(n_rows_after, n_rows_before)
 
   # Should not be combined
   testthat::expect_equal(2, nrow(t_fixed[t_fixed$LopNr == 42, ]))
